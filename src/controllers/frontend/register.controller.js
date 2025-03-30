@@ -4,7 +4,7 @@ var jwt = require("jsonwebtoken") //लॉगिन के बाद यूज�
 var secretKey = "Gionee123" // JWT को सुरक्षित बनाने के लिए।
 
 exports.register = async (request, response) => {
-  const existingUser = await userModel.findOne({ email: request.body.email }) //सबसे पहले चेक करता है कि यूज़र पहले से रजिस्टर है या नहीं।
+  const existingUser = await userModel.findOne({ email: request.query.email }) //सबसे पहले चेक करता है कि यूज़र पहले से रजिस्टर है या नहीं।
 
   if (existingUser) {
     return response.status(400).json({
@@ -15,10 +15,10 @@ exports.register = async (request, response) => {
 
   // नया यूज़र बनाएं
   var data = new userModel({
-    name: request.body.name,
-    email: request.body.email,
-    mobile_number: request.body.mobile_number,
-    password: bcrypt.hashSync(request.body.password, 10),
+    name: request.query.name,
+    email: request.query.email,
+    mobile_number: request.query.mobile_number,
+    password: bcrypt.hashSync(request.query.password, 10),
   })
   // यूज़र को डेटाबेस में सेव करें
 
@@ -52,12 +52,12 @@ exports.register = async (request, response) => {
 
 exports.login = async (request, response) => {
   await userModel
-    .findOne({ email: request.body.email })
+    .findOne({ email: request.query.email })
 
     .then((result) => {
       if (result) {
         var comparePassword = bcrypt.compareSync(
-          request.body.password,
+          request.query.password,
           result.password
         )
         if (comparePassword) {
