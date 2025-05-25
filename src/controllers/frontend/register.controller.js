@@ -3,6 +3,8 @@ const bcrypt = require("bcryptjs") //पासवर्ड को हैश क�
 var jwt = require("jsonwebtoken") //लॉगिन के बाद यूज़र को ऑथेंटिकेट करने के लिए।
 var secretKey = "Gionee123" // JWT को सुरक्षित बनाने के लिए।
 
+// note-> thunder client me "form-encode" me code send karne hai kyoi multer ka use nahi liya hai
+
 exports.register = async (request, response) => {
   const existingUser = await userModel.findOne({ email: request.query.email }) //सबसे पहले चेक करता है कि यूज़र पहले से रजिस्टर है या नहीं।
 
